@@ -1,16 +1,19 @@
 import sys
 import zmq
+import time
 import GPUtil
 # from StringIO import StringIO  # Python2
 from io import StringIO  # Python3
 
-PORT = 5555
+FORWARDER_URL = "nlp5.cs.unc.edu:5555"
+
 
 # Setup the Connection
 context = zmq.Context()
-socket = context.socket(zmq.REP)
-socket.bind("tcp://*:%d" % PORT)
-print("Server Binded to %d" % PORT)
+socket = context.socket(zmq.PUB)
+socket.connect("tcp://%s" % FORWARDER_URL)
+print("Server Binded to %s" % FORWARDER_URL)
+
 
 
 def _get_GPU_status():
@@ -43,17 +46,19 @@ def process():
     return result_string
 
 
-def server():
-    while True:
-        #  Wait for next request from client
-        message = socket.recv()
-        print("Received request: %s" % message)
+def _get_publisher_name():
+    return "Random1"
 
+
+def server():
+    publisher_name = _get_publisher_name()
+    while True:
         #  Do some 'work'
         response = process()
-
+        response = "SERVER #%s \n %s" % (publisher_name, response)
         #  Send reply back to client
         socket.send(response.encode())
+        time.sleep(1)
 
 
 if __name__ == "__main__":
