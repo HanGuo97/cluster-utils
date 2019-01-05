@@ -53,3 +53,7 @@ def server():
 
         #  Send reply back to client
         socket.send(response.encode())
+
+
+if __name__ == "__main__":
+    server()
