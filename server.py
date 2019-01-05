@@ -10,6 +10,7 @@ PORT = 5555
 context = zmq.Context()
 socket = context.socket(zmq.REP)
 socket.bind("tcp://*:%d" % PORT)
+print("Server Binded to %d" % PORT)
 
 
 def _get_GPU_status():
