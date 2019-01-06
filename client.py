@@ -1,5 +1,6 @@
 import zmq
 import time
+from datetime import datetime
 from constants import (FORWARDER_URL,
                        BACKEND_PORT,
                        TOPIC_FILTER)
@@ -13,10 +14,31 @@ socket.setsockopt(zmq.SUBSCRIBE, TOPIC_FILTER)
 print("Connected to server %s:%s" % (FORWARDER_URL, BACKEND_PORT))
 
 
+def _process_message(message):
+    msg_lines = message.splitlines()
+    host_name = msg_lines[0].split()[1]
+    gpu_mem = [
+        l[1:-1].split("|")[-1].strip()[:-1]
+        for l in msg_lines[3:]]
+
+    gpu_info = " ".join(gpu_mem)
+    time_info = str(datetime.now().time())
+    return host_name, gpu_info, time_info
+
+
+def _print_gpu_info(status):
+    for key, val in status.items():
+        print("\n".join(key, val))
+
+
 def client():
+    gpu_status = {}
     while True:
-        message = socket.recv()
-        print(message.decode())
+        message = socket.recv().decode()
+        host_name, gpu_info, time_info = _process_message(message)
+
+        gpu_status[host_name] = "\t".join(gpu_info, time_info)
+        _print_gpu_info(gpu_status)
         time.sleep(1)
 
 
