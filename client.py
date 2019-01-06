@@ -28,7 +28,7 @@ def _process_message(message):
 
 def _print_gpu_info(status):
     for key, val in status.items():
-        print("\033[95m %s \033[0m \n %s" % (key, val))
+        print("\033[95m%s\033[0m \n%s" % (key, val))
     print("\n\n\n")
 
 
