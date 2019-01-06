@@ -1,15 +1,16 @@
 import zmq
 import time
+from constants import (FORWARDER_URL,
+                       BACKEND_PORT,
+                       TOPIC_FILTER)
 
-SERVER = "nlp5.cs.unc.edu:5560"
-TOPIC_FILTER = b"SERVER"
 
 # Socket to talk to server
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
-socket.connect("tcp://%s" % SERVER)
+socket.connect("tcp://%s:%s" % (FORWARDER_URL, BACKEND_PORT))
 socket.setsockopt(zmq.SUBSCRIBE, TOPIC_FILTER)
-print("Connected to server %s" % SERVER)
+print("Connected to server %s" % FORWARDER_URL)
 
 
 def client():

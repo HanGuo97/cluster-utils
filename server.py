@@ -5,14 +5,13 @@ import GPUtil
 # from StringIO import StringIO  # Python2
 from io import StringIO  # Python3
 import socket as socket_utils
-
-FORWARDER_URL = "nlp5.cs.unc.edu:5559"
+from constants import FORWARDER_URL, FRONTEND_PORT
 
 
 # Setup the Connection
 context = zmq.Context()
 socket = context.socket(zmq.PUB)
-socket.connect("tcp://%s" % FORWARDER_URL)
+socket.connect("tcp://%s:%s" % (FORWARDER_URL, FRONTEND_PORT))
 print("Server Binded to %s" % FORWARDER_URL)
 
 

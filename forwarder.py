@@ -1,16 +1,17 @@
 import zmq
-FRONTEND_PORT = 5559
-BACKEND_PORT = 5560
+from constants import FRONTEND_PORT, BACKEND_PORT
 
 
 def main():
-
+    """https://learning-0mq-with-pyzmq.readthedocs.io/en/latest/pyzmq/devices/forwarder.html"""
     try:
+        # Initialize the Context
         context = zmq.Context(1)
         # Socket facing clients
         frontend = context.socket(zmq.SUB)
         frontend.bind("tcp://*:%s" % FRONTEND_PORT)
 
+        # Set the Socket Opt
         frontend.setsockopt(zmq.SUBSCRIBE, b"")
 
         # Socket facing services
@@ -20,9 +21,11 @@ def main():
 
         # Start the device
         zmq.device(zmq.FORWARDER, frontend, backend)
+    
     except Exception as e:
         print(e)
         print("bringing down zmq device")
+    
     finally:
         pass
         frontend.close()
