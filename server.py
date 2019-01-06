@@ -1,6 +1,7 @@
 import sys
 import zmq
 import time
+import socket
 import GPUtil
 # from StringIO import StringIO  # Python2
 from io import StringIO  # Python3
@@ -13,7 +14,6 @@ context = zmq.Context()
 socket = context.socket(zmq.PUB)
 socket.connect("tcp://%s" % FORWARDER_URL)
 print("Server Binded to %s" % FORWARDER_URL)
-
 
 
 def _get_GPU_status():
@@ -46,16 +46,24 @@ def process():
     return result_string
 
 
-def _get_publisher_name():
-    return "Random1"
+# IP address
+def get_Host_name_IP():
+    try:
+        host_name = socket.gethostname()
+        host_ip = socket.gethostbyname(host_name)
+        # print("Hostname : ", host_name)
+        # print("IP : ", host_ip)
+        return "%s %s" % (host_name, host_ip)
+    except Exception:
+        print("Unable to get Hostname and IP")
 
 
 def server():
-    publisher_name = _get_publisher_name()
+    publisher_name = get_Host_name_IP()
     while True:
         #  Do some 'work'
-        response = process()
-        response = "SERVER #%s \n %s" % (publisher_name, response)
+        response = get_Host_name_IP()()
+        response = "SERVER %s \n %s" % (publisher_name, response)
         print("Sending Response\n%s" % response)
         #  Send reply back to client
         socket.send(response.encode())
