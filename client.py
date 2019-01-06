@@ -10,7 +10,7 @@ context = zmq.Context()
 socket = context.socket(zmq.SUB)
 socket.connect("tcp://%s:%s" % (FORWARDER_URL, BACKEND_PORT))
 socket.setsockopt(zmq.SUBSCRIBE, TOPIC_FILTER)
-print("Connected to server %s" % FORWARDER_URL)
+print("Connected to server %s:%s" % (FORWARDER_URL, BACKEND_PORT))
 
 
 def client():

@@ -12,7 +12,7 @@ from constants import FORWARDER_URL, FRONTEND_PORT
 context = zmq.Context()
 socket = context.socket(zmq.PUB)
 socket.connect("tcp://%s:%s" % (FORWARDER_URL, FRONTEND_PORT))
-print("Server Binded to %s" % FORWARDER_URL)
+print("Server Binded to %s:%s" % (FORWARDER_URL, FRONTEND_PORT))
 
 
 def _get_GPU_status():
