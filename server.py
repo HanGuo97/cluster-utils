@@ -1,10 +1,10 @@
 import sys
 import zmq
 import time
-import socket
 import GPUtil
 # from StringIO import StringIO  # Python2
 from io import StringIO  # Python3
+import socket as socket_utils
 
 FORWARDER_URL = "nlp5.cs.unc.edu:5559"
 
@@ -49,8 +49,8 @@ def process():
 # IP address
 def get_Host_name_IP():
     try:
-        host_name = socket.gethostname()
-        host_ip = socket.gethostbyname(host_name)
+        host_name = socket_utils.gethostname()
+        host_ip = socket_utils.gethostbyname(host_name)
         # print("Hostname : ", host_name)
         # print("IP : ", host_ip)
         return "%s %s" % (host_name, host_ip)
