@@ -1,22 +1,20 @@
 import zmq
 
-context = zmq.Context()
-SERVER = "bvisionserver6.cs.unc.edu:5555"
+SERVER = "nlp5.cs.unc.edu:5560"
+TOPIC_FILTER = b"SERVER"
 
-#  Socket to talk to server
-socket = context.socket(zmq.REQ)
+# Socket to talk to server
+context = zmq.Context()
+socket = context.socket(zmq.SUB)
 socket.connect("tcp://%s" % SERVER)
-print("Connected to server %s…" % SERVER)
+socket.setsockopt(zmq.SUBSCRIBE, TOPIC_FILTER)
+print("Connected to server %s" % SERVER)
 
 
 def client():
-    print("Sending request …")
-    socket.send(b"GPU-STATUS")
-
-    #  Get the reply.
-    message = socket.recv()
-    print("Received reply")
-    print(message.decode())
+    while True:
+        message = socket.recv()
+        print(message.decode())
 
 
 if __name__ == "__main__":

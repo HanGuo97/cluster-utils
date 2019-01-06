@@ -18,6 +18,8 @@ def main():
         backend.bind("tcp://*:%d" % BACKEND_PORT)
 
         zmq.device(zmq.FORWARDER, frontend, backend)
+
+        print("Forwarder binded to %s %s" % (FRONTEND_PORT, BACKEND_PORT))
     except Exception as e:
         print(e)
         print("bringing down zmq device")
