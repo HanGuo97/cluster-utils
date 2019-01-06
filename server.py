@@ -59,12 +59,13 @@ def get_Host_name_IP():
 
 
 def server():
-    publisher_name = get_Host_name_IP()
+    publisher = get_Host_name_IP()
     while True:
         #  Do some 'work'
-        response = get_Host_name_IP()
-        response = "SERVER %s \n %s" % (publisher_name, response)
-        print("Sending Response\n%s" % response)
+        response = process()
+        response = "SERVER %s \n %s" % (publisher, response)
+        # print("Sending Response\n%s" % response)
+        
         #  Send reply back to client
         socket.send(response.encode())
         time.sleep(1)
