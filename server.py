@@ -56,7 +56,7 @@ def server():
         #  Do some 'work'
         response = process()
         response = "SERVER #%s \n %s" % (publisher_name, response)
-        print("Sending Response")
+        print("Sending Response\n%s" % response)
         #  Send reply back to client
         socket.send(response.encode())
         time.sleep(1)
