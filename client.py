@@ -28,7 +28,8 @@ def _process_message(message):
 
 def _print_gpu_info(status):
     for key, val in status.items():
-        print("\n".join(key, val))
+        print("\n".join([key, val]))
+    print("\n\n\n")
 
 
 def client():
@@ -37,9 +38,9 @@ def client():
         message = socket.recv().decode()
         host_name, gpu_info, time_info = _process_message(message)
 
-        gpu_status[host_name] = "\t".join(gpu_info, time_info)
+        gpu_status[host_name] = "MEM:\t%s \nTIME:\t%s" % (gpu_info, time_info)
         _print_gpu_info(gpu_status)
-        time.sleep(1)
+        time.sleep(5000)
 
 
 if __name__ == "__main__":
