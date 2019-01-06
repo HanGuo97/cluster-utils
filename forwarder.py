@@ -16,10 +16,10 @@ def main():
         # Socket facing services
         backend = context.socket(zmq.PUB)
         backend.bind("tcp://*:%d" % BACKEND_PORT)
-
-        zmq.device(zmq.FORWARDER, frontend, backend)
-
         print("Forwarder binded to %s %s" % (FRONTEND_PORT, BACKEND_PORT))
+
+        # Start the device
+        zmq.device(zmq.FORWARDER, frontend, backend)
     except Exception as e:
         print(e)
         print("bringing down zmq device")
