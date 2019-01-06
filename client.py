@@ -28,7 +28,7 @@ def _process_message(message):
 
 def _print_gpu_info(status):
     for key, val in status.items():
-        print("\n".join([key, val]))
+        print("\033[95m %s \033[0m \n %s" % (key, val))
     print("\n\n\n")
 
 
@@ -40,7 +40,7 @@ def client():
 
         gpu_status[host_name] = "MEM:\t%s \nTIME:\t%s" % (gpu_info, time_info)
         _print_gpu_info(gpu_status)
-        time.sleep(5000)
+        time.sleep(3)
 
 
 if __name__ == "__main__":
